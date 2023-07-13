@@ -5,13 +5,14 @@ from twilio.rest import Client
 
 app = Flask(__name__)
 
-@app.route('/sms', methods=['POST'])
+@app.route('/sms', methods=['GET', 'POST'])
 def sms_print():
     response = MessagingResponse()
     origin_number = response.name
     # response.message('Hello from Twilio!')
     # print(str(response))
     print(response)
+    print(str(response))
     
     ACCOUNT_SID:str = os.getenv('TWILIO_ACCOUNT_SID')
     AUTH_TOKEN:str = os.getenv('TWILIO_AUTH_TOKEN')
@@ -23,4 +24,5 @@ def sms_print():
     message = client.messages.create(body=f'Message from {origin_number}: {str(response)}', from_=TWILIO_NUMBER, to=DEST_NUMBER)
 
 if __name__ == '__main__':
+    print('Starting Flask app')
     app.run(debug=True)
