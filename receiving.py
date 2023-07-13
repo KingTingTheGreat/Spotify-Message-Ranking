@@ -1,6 +1,7 @@
 import os
 from flask import Flask
-from twilio.twiml.messaging_response import MessagingResponse, Client
+from twilio.twiml.messaging_response import MessagingResponse
+from twilio.rest import Client
 
 app = Flask(__name__)
 
