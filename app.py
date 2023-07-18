@@ -30,4 +30,5 @@ if __name__ == '__main__':
     print('Starting Flask app')
     c = Client(ACCOUNT_SID, AUTH_TOKEN)
     message = c.messages.create(body='starting Flask application!', from_=TWILIO_NUMBER, to=DEST_NUMBER)
+    del c, message
     app.run(debug=True)
