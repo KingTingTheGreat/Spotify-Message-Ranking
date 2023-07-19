@@ -18,7 +18,10 @@ multidict==6.0.4
 PyJWT==2.7.0
 python-dotenv==1.0.0
 pytz==2023.3
+redis==4.6.0
 requests==2.31.0
+six==1.16.0
+spotipy==2.23.0
 twilio==8.4.0
 urllib3==2.0.3
 Werkzeug==2.3.6
