@@ -9,6 +9,8 @@ load_dotenv()
 CLIENT_ID = os.getenv('SPOTIFY_CLIENT_ID')
 CLIENT_SECRET = os.getenv('SPOTIFY_CLIENT_SECRET')
 
+CALLBACK_URL = 'https://example.com/callback/'
+
 MONTHS = {1:'January', 2:'February', 3:'March', 4:'April', 5:'May', 6:'June',
         7:'July', 8:'August', 9:'September', 10:'October', 11:'November', 12:'December'}
 
@@ -17,7 +19,7 @@ def get_songs_username() -> tuple[str, str]:
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
         client_id=CLIENT_ID,
         client_secret=CLIENT_SECRET,
-        redirect_uri="https://example.com/callback/",
+        redirect_uri=CALLBACK_URL,
         scope="user-top-read"
     ))
 
@@ -31,7 +33,7 @@ def get_songs_username() -> tuple[str, str]:
 
     return (top_songs, display_name)
 
-def get_message() -> str:
+def get_messages() -> str:
     """ returns a string of the message to be sent to the user """
     month, year = datetime.now().month, datetime.now().year
     top_songs, name = get_songs_username()
@@ -41,4 +43,4 @@ def get_message() -> str:
     return f"Hello there, {name}!\nHere are your top songs from {MONTHS.get(month, month)}, {year}:\n{top_songs}"
 
 if __name__ == '__main__':
-    print(get_message())
+    print(get_messages())
