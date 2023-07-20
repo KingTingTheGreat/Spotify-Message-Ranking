@@ -14,17 +14,26 @@ app = Flask(__name__)
 
 @app.route('/sms', methods=['GET', 'POST'])
 def incoming_sms():
-    body = request.values.get('Body', None)
-    resp = MessagingResponse()
-    if body is None:
-        return ''
-    resp.message(f'You said: {body}')
-    
-
-    assert ACCOUNT_SID is not None and AUTH_TOKEN is not None
+    # body = request.values.get('Body', None)
+    # resp = MessagingResponse()
+    # if body is None:
+    #     return ''
+    # resp.message(f'You said: {body}')
 
     client:Client = Client(ACCOUNT_SID, AUTH_TOKEN)
-    message = client.messages.create(body=f'Message: {body}', from_=TWILIO_NUMBER, to=DEST_NUMBER)
+    message = client.messages.create(body='a message was received', from_=TWILIO_NUMBER, to=DEST_NUMBER)
+    # message = client.messages.create(body=f'Message: {body}', from_=TWILIO_NUMBER, to=DEST_NUMBER)
+
+
+@app.route('/callback')
+def callback():
+    authorization_code = request.args.get('code')
+    # store code in database
+    return 'Authorization code successfully stored'
+
+
+# create function to store data in database
+
 
 if __name__ == '__main__':
     print('Starting Flask app')
