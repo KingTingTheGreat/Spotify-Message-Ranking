@@ -9,7 +9,7 @@ load_dotenv()
 CLIENT_ID = os.getenv('SPOTIFY_CLIENT_ID')
 CLIENT_SECRET = os.getenv('SPOTIFY_CLIENT_SECRET')
 
-CALLBACK_URL = 'https://example.com/callback/'
+CALLBACK_URI = os.getenv('SPOTIFY_CALLBACK_URI')
 
 MONTHS = {1:'January', 2:'February', 3:'March', 4:'April', 5:'May', 6:'June',
         7:'July', 8:'August', 9:'September', 10:'October', 11:'November', 12:'December'}
@@ -19,7 +19,7 @@ def get_top_songs() -> tuple[str, str]:
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
         client_id=CLIENT_ID,
         client_secret=CLIENT_SECRET,
-        redirect_uri=CALLBACK_URL,
+        redirect_uri=CALLBACK_URI,
         scope="user-top-read"
     ))
 
@@ -34,11 +34,13 @@ def get_username() -> str:
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
         client_id=CLIENT_ID,
         client_secret=CLIENT_SECRET,
-        redirect_uri=CALLBACK_URL,
+        redirect_uri=CALLBACK_URI,
         scope="user-top-read"
     ))
+
     # get user's display name
     user_info = sp.current_user()
+
     return user_info.get('display_name', '[Your Name]')
 
 
