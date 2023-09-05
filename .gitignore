@@ -1,1 +1,9 @@
 .env
+__pycache__/
+.cache
+test.py
+todo.txt
+Wallet_G3D85H8EX87ENVZA
+del*
+test*
+send_sms.py
