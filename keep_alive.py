@@ -36,4 +36,8 @@ except oracledb.DatabaseError as e:
     exit()
 print('Successfully connected to Oracle Database')
 
-print(f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - Number of users: {count_users(connection)}")
+data = f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - Number of users: {count_users(connection)}"
+print(data)
+
+with open('log.txt', 'a') as f:
+    f.write(data + '\n')
