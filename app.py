@@ -1,43 +1,69 @@
 import os
-from flask import Flask, request
-from twilio.twiml.messaging_response import MessagingResponse
-from twilio.rest import Client
 from dotenv import load_dotenv
+from flask import Flask, request, redirect, session, url_for
+import spotipy
+import spotipy.util as util
+from spotipy.oauth2 import SpotifyOAuth
+import oracledb
+from keep_alive import connect_to_database
+from flask_cors import CORS
 
 load_dotenv()
-ACCOUNT_SID:str = os.getenv('TWILIO_ACCOUNT_SID')
-AUTH_TOKEN:str = os.getenv('TWILIO_AUTH_TOKEN')
-TWILIO_NUMBER:str = os.getenv('TWILIO_NUMBER')
-DEST_NUMBER:str = os.getenv('DEST_NUMBER')
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/*": {"origins": ["http://localhost"]}})
+# cors = CORS(app, resources={r"/*": {"origins": '*'}})
 
-@app.route('/sms', methods=['GET', 'POST'])
-def incoming_sms():
-    # body = request.values.get('Body', None)
-    # resp = MessagingResponse()
-    # if body is None:
-    #     return ''
-    # resp.message(f'You said: {body}')
+TABLE_NAME = 'user_data'
 
-    client:Client = Client(ACCOUNT_SID, AUTH_TOKEN)
-    message = client.messages.create(body='a message was received', from_=TWILIO_NUMBER, to=DEST_NUMBER)
-    # message = client.messages.create(body=f'Message: {body}', from_=TWILIO_NUMBER, to=DEST_NUMBER)
+# Spotify API connection info
+SPOTIFY_CLIENT_ID = os.environ.get('SPOTIFY_CLIENT_ID')
+SPOTIFY_CLIENT_SECRET = os.environ.get('SPOTIFY_CLIENT_SECRET')
+# SPOTIFY_REDIRECT_URI = os.environ.get('SPOTIFY_REDIRECT_URI')
+SPOTIFY_REDIRECT_URI = 'http://localhost:8888/callback/'
+sp_auth = SpotifyOAuth(
+    client_id=SPOTIFY_CLIENT_ID,
+    client_secret=SPOTIFY_CLIENT_SECRET,
+    redirect_uri=SPOTIFY_REDIRECT_URI,
+    scope="user-top-read"
+)
 
 
-@app.route('/callback')
+# Flask info
+FLASK_SECRET_KEY = os.environ.get('FLASK_SECRET_KEY')
+
+
+@app.route('/')
+def index():
+    auth_url = sp_auth.get_authorize_url()
+    return redirect(auth_url)
+    # return "Welcome to the website! Please enter your phone number."
+
+@app.route('/callback', methods=['GET', 'POST'])
 def callback():
-    authorization_code = request.args.get('code')
-    # store code in database
-    return 'Authorization code successfully stored'
+    token_info = sp_auth.get_access_token(request.args.get('code'))
+    session['token_info'] = token_info
+    print(token_info)
+    # return redirect(url_for('index'))
 
+@app.route('/contains', methods=['GET'])
+def contains():
+    phone_number = request.args.get('phone_number')
+    # phone_number = request.form['phone_number']
 
-# create function to store data in database
+    # check if phone number is in database
+    with connect_to_database() as connection:
+        assert(connection is not None)
+        with connection.cursor() as cursor:
+            cursor.execute(f"SELECT * FROM {TABLE_NAME} WHERE PHONENUMBER = '{phone_number}'")
+            result = cursor.fetchone()
+            if result is None:
+                return "false"
+            else:
+                return "true"
+    
 
 
 if __name__ == '__main__':
-    print('Starting Flask app')
-    c = Client(ACCOUNT_SID, AUTH_TOKEN)
-    message = c.messages.create(body='starting Flask application!', from_=TWILIO_NUMBER, to=DEST_NUMBER)
-    del c, message
-    app.run(debug=True)
+    app.secret_key = FLASK_SECRET_KEY
+    app.run(debug=True, port=8888)
