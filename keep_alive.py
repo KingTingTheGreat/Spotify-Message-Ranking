@@ -20,21 +20,24 @@ def count_users(connection:oracledb.Connection) -> int:
         count = cursor.fetchone()[0]
         return count
 
+def connect_to_database():
+    try:
+        print('Connecting to Oracle Database...')
+        connection = oracledb.connect(
+            user=ORACLE_USERNAME,
+            password=ORACLE_PASSWORD,
+            dsn=ORACLE_DSN,
+            wallet_location=ORACLE_WALLET_LOCATION,
+            wallet_password=ORACLE_WALLET_PASSWORD
+        )
+    except oracledb.DatabaseError as e:
+        print('Failed to connect to Oracle Database')
+        print("The database returned the following error:", e)
+        return  
+    print('Successfully connected to Oracle Database')
+    return connection
 
-try:
-    print('Connecting to Oracle Database...')
-    connection = oracledb.connect(
-        user=ORACLE_USERNAME,
-        password=ORACLE_PASSWORD,
-        dsn=ORACLE_DSN,
-        wallet_location=ORACLE_WALLET_LOCATION,
-        wallet_password=ORACLE_WALLET_PASSWORD
-    )
-except oracledb.DatabaseError as e:
-    print('Failed to connect to Oracle Database')
-    print("The database returned the following error:", e)
-    exit()
-print('Successfully connected to Oracle Database')
+connection = connect_to_database()
 
 data = f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - Number of users: {count_users(connection)}"
 print(data)
