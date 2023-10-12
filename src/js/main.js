@@ -16,8 +16,6 @@ function containPhoneNumber() {
     const phone_number = document.getElementById('phone_number').value;
     console.log(`PhoneNumber to check is ${phone_number}`);
 
-    // const number = "9177575886"
-
     fetchContainsNumber(phone_number, (data, error) => {
         if (error) {
             console.error("Error:", error);
@@ -35,6 +33,4 @@ function containPhoneNumber() {
     });
 
 }
-
-containPhoneNumber();
 
