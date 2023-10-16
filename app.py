@@ -5,13 +5,13 @@ import spotipy
 import spotipy.util as util
 from spotipy.oauth2 import SpotifyOAuth
 import oracledb
-from keep_alive import connect_to_database
+from keep_alive import connect_to_database, count_users
 from flask_cors import CORS
 
 load_dotenv()
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"/*": {"origins": ["http://localhost"]}})
+cors = CORS(app, resources={r"/*": {"origins": ["http://localhost/*", "http://127.0.0.1/*"]}})
 # cors = CORS(app, resources={r"/*": {"origins": '*'}})
 
 TABLE_NAME = 'user_data'
@@ -39,18 +39,18 @@ def index():
     return redirect(auth_url)
     # return "Welcome to the website! Please enter your phone number."
 
-@app.route('/callback', methods=['GET', 'POST'])
+@app.route('/api/callback', methods=['GET', 'POST'])
 def callback():
     token_info = sp_auth.get_access_token(request.args.get('code'))
     session['token_info'] = token_info
     print(token_info)
     # return redirect(url_for('index'))
 
-@app.route('/contains', methods=['GET'])
+@app.route('/api/contains', methods=['GET'])
 def contains():
+    """ returns boolean indicating if input phone number is in database"""
     phone_number = request.args.get('phone_number')
-    # phone_number = request.form['phone_number']
-
+    print(f"Checking for: {phone_number}")
     # check if phone number is in database
     with connect_to_database() as connection:
         assert(connection is not None)
@@ -62,8 +62,17 @@ def contains():
             else:
                 return "true"
     
-
+def add_to_database(phone_number: str, auth_code: str = 'test-auth') -> bool:
+    """ adds phone number - auth code pair to our database """
+    with connect_to_database() as connection:
+        assert(connection is not None)
+        with connection.cursor() as cursor:
+            cursor.execute(f"INSERT INTO {TABLE_NAME} (PHONENUMBER, AUTHCODE) VALUES ('{phone_number}', '{auth_code}')")
+        connection.commit()
+            
 
 if __name__ == '__main__':
+    # add_to_database('1234567890')
+    print(f"Num Users: {count_users(connect_to_database())}")
     app.secret_key = FLASK_SECRET_KEY
     app.run(debug=True, port=8888)
