@@ -37,10 +37,11 @@ def connect_to_database():
     print('Successfully connected to Oracle Database')
     return connection
 
-connection = connect_to_database()
+if __name__ == '__main__':
+    connection = connect_to_database()
 
-data = f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - Number of users: {count_users(connection)}"
-print(data)
+    data = f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - Number of users: {count_users(connection)}"
+    print(data)
 
-with open('log.txt', 'a') as f:
-    f.write(data + '\n')
+    with open('log.txt', 'a') as f:
+        f.write(data + '\n')
