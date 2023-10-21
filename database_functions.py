@@ -61,6 +61,16 @@ def num_rows(table_name:str) -> int:
         cursor.execute(f"SELECT COUNT(*) FROM {table_name}")
         count = cursor.fetchone()[0]
         return count
+    
+def contains(table_name:str, phone_number:str) -> bool:
+    """ returns boolean indicating if input phone number is in database"""
+    with connect().cursor() as cursor:
+        cursor.execute(f"SELECT * FROM {table_name} WHERE PHONENUMBER = '{phone_number}'")
+        result = cursor.fetchone()
+        if result is None:
+            return False
+        else:
+            return True
 
 
 # edits the database
@@ -85,4 +95,4 @@ def remove_from_table(phone_number:str, table_name:str) -> None:
     with connect() as connection:
         with connection.cursor() as cursor:
             cursor.execute(f"DELETE FROM {table_name} WHERE PHONENUMBER = '{phone_number}'")
-            connection.commit()
+        connection.commit()
