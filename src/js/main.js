@@ -38,7 +38,7 @@ function fetchContainsNumber(number, callback) {
  * 
  * @returns true if the phone number is already in the database, false otherwise
  */
-function containsPhoneNumber() {
+function submitPhoneNumberOld() {
     const input_number = document.getElementById('phone_number').value;
     const phone_number = cleanPhoneNumber(input_number);
     console.log(`PhoneNumber to check is ${phone_number}`);
@@ -67,4 +67,21 @@ function containsPhoneNumber() {
             console.log("Error: data is not a boolean value.");
         }
     });
+}
+
+function submitPhoneNumber() {
+    const inputNumber = document.getElementById('phone_number').value;
+    const phoneNumber = cleanPhoneNumber(inputNumber);
+    console.log(phoneNumber);
+    window.location.href(`http://127.0.0.1:8888/api/signup?phone_number=${phoneNumber}`);
+    // fetch(`http://127.0.0.1:8888/api/signup?phone_number=${phoneNumber}`, {
+    //     method: 'POST'
+    // })
+    //     .then(response => response.text())
+    //     .then(data => {
+    //         console.log(data);
+    //     })
+    //     .catch(error => {
+    //         console.error("Error:", error);
+    //     });
 }
