@@ -16,7 +16,7 @@ FLASK_SECRET_KEY = os.environ['FLASK_SECRET_KEY']
 app = Flask(__name__)
 app.config['SECRET_KEY'] = FLASK_SECRET_KEY
 
-cors = CORS(app, resources={r"/*": {"origins": ["http://localhost/*", "http://127.0.0.1/*"]}})
+# cors = CORS(app, resources={r"/*": {"origins": ["http://localhost/*", "http://127.0.0.1/*"]}})
 # cors = CORS(app, resources={r"/*": {"origins": '*'}})
 
 
@@ -28,7 +28,7 @@ def gen_state(n=16):
 @app.route('/')
 def index():
     # auth_url = sp_auth.get_authorize_url()
-    # return redirect(auth_url)
+    return redirect("https://kingtingthegreat.github.io/Spotify-Message-Ranking/")
     return "Welcome to the website! Please enter your phone number."
 
 
@@ -47,13 +47,14 @@ def callback():
     return redirect("https://kingtingthegreat.github.io/Spotify-Message-Ranking/")
 
 
-@app.route('/api/signup', methods=['POST'])
+@app.route('/api/signup', methods=['GET'])
 def signup():
     # get input phone number
-    phone_number = request.args.get('phone_number')
+    phone_number = request.args.get('phone_number', None)
+    print(f'PHONE NUMBER: {phone_number}')
 
     # already signed up, tell user this
-    if contains(phone_number):
+    if contains(PRODUCTION_TABLE, phone_number):
         return redirect("https://kingtingthegreat.github.io/Spotify-Message-Ranking/already_signed_up.html")
     
     # store phone number in hashtable temporarily
