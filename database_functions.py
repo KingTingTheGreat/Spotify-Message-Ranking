@@ -90,7 +90,7 @@ def add_to_table(table_name:str, phone_number:str, auth_code:str) -> None:
             cursor.execute(f"INSERT INTO {table_name} (PHONENUMBER, AUTHCODE) VALUES ('{phone_number}', '{auth_code}')")
         connection.commit()
 
-def remove_from_table(phone_number:str, table_name:str) -> None:
+def remove_from_table(table_name:str, phone_number:str) -> None:
     """ removes entry from the table with PHONENUMBER phone_number """
     with connect() as connection:
         with connection.cursor() as cursor:
