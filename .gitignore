@@ -8,3 +8,4 @@ del*
 test*
 send_sms.py
 loop_test.py
+.private
