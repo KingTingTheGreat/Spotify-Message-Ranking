@@ -20,3 +20,9 @@ def generate_authorization_url(state:str) -> str:
         'state': state
     }
     return 'https://accounts.spotify.com/authorize?' + '&'.join([f'{key}={value}' for key, value in params.items()])
+
+def get_username(auth_code: str) -> str: 
+    pass
+
+def get_top_songs(auth_code: str) -> list[dict]:
+    pass
