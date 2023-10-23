@@ -22,7 +22,8 @@ function cleanPhoneNumber(phone_number) {
 */
 function fetchContainsNumber(number, callback) {
     // api url
-    const URL = `http://127.0.0.1:8888/api/contains?phone_number=${number}`;
+    // const URL = `http://127.0.0.1:8888/api/contains?phone_number=${number}`;
+    const URL = `https://spotify-message-ranking.vercel.app/api/contains?phone_number=${number}`;
     // make a request to the url
     fetch(URL)
         .then(response => response.text())
@@ -73,15 +74,34 @@ function submitPhoneNumber() {
     const inputNumber = document.getElementById('phone_number').value;
     const phoneNumber = cleanPhoneNumber(inputNumber);
     console.log(phoneNumber);
-    window.location.href(`http://127.0.0.1:8888/api/signup?phone_number=${phoneNumber}`);
-    // fetch(`http://127.0.0.1:8888/api/signup?phone_number=${phoneNumber}`, {
-    //     method: 'POST'
-    // })
-    //     .then(response => response.text())
-    //     .then(data => {
-    //         console.log(data);
-    //     })
-    //     .catch(error => {
-    //         console.error("Error:", error);
-    //     });
+
+    // const url = 'https://spotify-message-ranking.vercel.app/' + phoneNumber;
+    const url = 'https://spotify-message-ranking.vercel.app/';
+    // const form = $('<form action="' + url + '" method="post">' +
+    //     '<input type="text" name="api_url" value="' + Return_URL + '" />' +
+    //     '</form>');
+    // const form = `<form action = "${url}" method = "post">` + `input type = "text" name = "api_url" value = "${Return_URL}" />` + `</form>`;
+
+    // const form = `<form action = "` + url + `" method = "post" input type = "text" name = "api_url" /> </form>`;
+    // form.visibility = "hidden";
+    // document.body.appendChild(form);
+    // form.submit();
+
+    //Create a form 
+    let form = document.createElement('FORM');
+    form.name = 'signupForm';
+    form.method = 'POST';
+    form.action = url;
+    //Create  a hidden filed
+    let hidden = document.createElement('INPUT');
+    hidden.type = 'HIDDEN';
+    hidden.name = 'phone_number';
+    hidden.value = phoneNumber;
+    // form.appendChild(hidden);
+    document.getElementsByTagName('body')[0].appendChild(form);
+
+    //Submit form
+    form.submit();
+
+
 }
