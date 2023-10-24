@@ -46,7 +46,8 @@ def print_table(table_name:str) -> None:
     with connect().cursor() as cursor:
         cursor.execute(f"SELECT * FROM {table_name}")
         data = cursor.fetchall()
-        print(data)
+        for row in data:
+            print(row)
 
 def print_column_names(table_name:str) -> None:
     """ prints the column names of the table """
