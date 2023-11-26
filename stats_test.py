@@ -2,7 +2,7 @@ import os
 from datetime import datetime
 from twilio.rest import Client
 from dotenv import load_dotenv
-from stats import get_songs_username
+from stats import get_username
 
 load_dotenv()
 ACCOUNT_SID:str = os.getenv('TWILIO_ACCOUNT_SID')
@@ -15,7 +15,7 @@ MONTHS = {1:'January', 2:'February', 3:'March', 4:'April', 5:'May', 6:'June',
 
 month, year = datetime.now().month, datetime.now().year
 
-top_songs, name = get_songs_username()
+top_songs, name = get_username()
 assert top_songs is not None and name is not None
 
 top_songs:str = '\n'.join([f'{i+1}. {song[0]} - {song[1]}' for i, song in enumerate(top_songs[:10])])
@@ -23,5 +23,5 @@ message = \
         f"Hello there, {name}!\nHere are your top songs from {MONTHS.get(month, month)}, {year}:\n{top_songs}"
 print(message)
 
-c = Client(ACCOUNT_SID, AUTH_TOKEN)
-message = c.messages.create(body=message, from_=TWILIO_NUMBER, to=DEST_NUMBER)
+# c = Client(ACCOUNT_SID, AUTH_TOKEN)
+# message = c.messages.create(body=message, from_=TWILIO_NUMBER, to=DEST_NUMBER)

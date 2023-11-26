@@ -41,13 +41,17 @@ def print_table_names() -> None:
         tables = cursor.fetchall()
         print(tables)
 
-def print_table(table_name:str) -> None:
-    """ prints the data in the table """
+def get_rows(table_name:str):
     with connect().cursor() as cursor:
         cursor.execute(f"SELECT * FROM {table_name}")
         data = cursor.fetchall()
         for row in data:
-            print(row)
+            yield row
+
+def print_table(table_name:str) -> None:
+    """ prints the data in the table """
+    for row in get_rows(table_name):
+        print(row)
 
 def print_column_names(table_name:str) -> None:
     """ prints the column names of the table """
@@ -97,3 +101,6 @@ def remove_from_table(table_name:str, phone_number:str) -> None:
         with connection.cursor() as cursor:
             cursor.execute(f"DELETE FROM {table_name} WHERE PHONENUMBER = '{phone_number}'")
         connection.commit()
+
+if __name__ == '__main__':
+    print_table(PRODUCTION_TABLE)

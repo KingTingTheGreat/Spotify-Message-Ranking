@@ -11,7 +11,8 @@ load_dotenv()
 CLIENT_ID = os.getenv('SPOTIFY_CLIENT_ID')
 CLIENT_SECRET = os.getenv('SPOTIFY_CLIENT_SECRET')
 
-CALLBACK_URI = os.getenv('SPOTIFY_CALLBACK_URI')
+# CALLBACK_URI = os.getenv('SPOTIFY_CALLBACK_URI')
+CALLBACK_URI = 'http://localhost:8888/callback'  # for testing
 
 MONTHS = {1:'January', 2:'February', 3:'March', 4:'April', 5:'May', 6:'June',
         7:'July', 8:'August', 9:'September', 10:'October', 11:'November', 12:'December'}

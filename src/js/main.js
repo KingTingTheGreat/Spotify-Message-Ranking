@@ -22,8 +22,8 @@ function cleanPhoneNumber(phone_number) {
 */
 function fetchContainsNumber(number, callback) {
     // api url
-    // const URL = `http://127.0.0.1:8888/api/contains?phone_number=${number}`;
-    const URL = `https://spotify-message-ranking.vercel.app/api/contains?phone_number=${number}`;
+    const URL = `http://127.0.0.1:8888/api/contains?phone_number=${number}`;
+    // const URL = `https://spotify-message-ranking.vercel.app/api/contains?phone_number=${number}`;
     // make a request to the url
     fetch(URL)
         .then(response => response.text())
@@ -75,33 +75,56 @@ function submitPhoneNumber() {
     const phoneNumber = cleanPhoneNumber(inputNumber);
     console.log(phoneNumber);
 
+    if (phoneNumber === null) {
+        console.log("Please enter a valid phone number.");
+        document.getElementById('error-message').innerHTML = "Please enter a valid phone number.";
+        return;
+    }
+
     // const url = 'https://spotify-message-ranking.vercel.app/' + phoneNumber;
-    const url = 'https://spotify-message-ranking.vercel.app/';
-    // const form = $('<form action="' + url + '" method="post">' +
-    //     '<input type="text" name="api_url" value="' + Return_URL + '" />' +
-    //     '</form>');
-    // const form = `<form action = "${url}" method = "post">` + `input type = "text" name = "api_url" value = "${Return_URL}" />` + `</form>`;
+    // const url = 'https://spotify-message-ranking.vercel.app/api/signup';
+    const url = 'http://127.0.0.1:8888/api/signup'
 
-    // const form = `<form action = "` + url + `" method = "post" input type = "text" name = "api_url" /> </form>`;
-    // form.visibility = "hidden";
-    // document.body.appendChild(form);
-    // form.submit();
-
-    //Create a form 
-    let form = document.createElement('FORM');
-    form.name = 'signupForm';
-    form.method = 'POST';
-    form.action = url;
-    //Create  a hidden filed
-    let hidden = document.createElement('INPUT');
-    hidden.type = 'HIDDEN';
-    hidden.name = 'phone_number';
-    hidden.value = phoneNumber;
-    // form.appendChild(hidden);
-    document.getElementsByTagName('body')[0].appendChild(form);
-
-    //Submit form
-    form.submit();
-
+    const fetchUrl = `${url}?phone_number=${phoneNumber}`;
+    fetch(fetchUrl, {
+        method: 'POST',
+        // redirect: 'follow',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.redirect) {
+                window.location.replace(data.redirect);
+            }
+            else {
+                document.getElementById('error-message').innerHTML = 'something went wrong';
+            }
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+    // .then(response => {
+    //     console.log(`response: ${response}`)
+    //     if (response.status === 200) {
+    //         document.getElementById('error-message').innerHTML = "You have been signed up for this messaging service!";
+    //         console.log(response.text());
+    //         // console.log("Success! You have been signed up for this service.");
+    //     }
+    //     else if (response.status === 400) {
+    //         document.getElementById('error-message').innerHTML = "This phone number has already been signed up.";
+    //         console.log(`error response - 400: ${response}`);
+    //         // window.location.href = "http://127.0.0.1:5500/retry.html"
+    //     }
+    //     else {
+    //         document.getElementById('error-message').innerHTML = "An error occurred. Please try again later.";
+    //         console.log(`error response - other: ${response}`);
+    //     }
+    // }
+    // )
+    // .catch((error) => {
+    //     console.error("Error:", error);
+    // });
 
 }
