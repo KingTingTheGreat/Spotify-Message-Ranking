@@ -5,20 +5,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="src/css/main.css" media="screen" />
-    <title>Home | Stats Messenger</title>
+    <title>Stats Messenger</title>
 </head>
 
-<body onload="onLoad()">
+<body>
     <div id="page-wrapper">
         <header>
             <h1>Stats Messenger</h1>
         </header>
-        <h2>Enter Your Phone Number</h2>
-        <label for="phone_number">Phone Number</label>
-        <input type="text" id="phone_number" name="phone_number" required />
-        <input type="button" value="Sign Up" onclick="submitPhoneNumber()" />
-        <div id="error-message" style="color: red;"></div>
-
+        <div id="content">
+            <div id="left">
+                <p>Stats Messenger is a service that allows you to get the latest stats for your favorite sports teams
+                    delivered to you via text message. To get started, enter your phone number below.</p>
+                <div id="user-content">
+                    <h2>Enter Your Phone Number</h2>
+                    <!-- <label for="phone_number">Phone Number</label> -->
+                    <div id="input-area">
+                        <input type="text" id="phone_number" name="phone_number" required />
+                        <br>
+                        <input type="button" id="sign-up-button" value="Sign Up" onclick="submitPhoneNumber()" />
+                        <div id="error-message"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="right">
+                <div id="image-wrapper">
+                    <img id="example" src="assets/images/example.png" alt="text you would receive">
+                </div>
+            </div>
+        </div>
     </div>
     <script src="src/js/main.js"></script>
 </body>

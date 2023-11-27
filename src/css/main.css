@@ -1,15 +1,97 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+#page-wrapper {
+	width: 100vw;
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
-    /* background-color: rgb(78, 223, 85); */
-    background-color: #1ED760;
+	font-family: "Roboto", sans-serif;
+	/* background-color: rgb(78, 223, 85); */
+	background-color: #1ed760;
+	text-align: center;
 }
 
 header {
-    text-transform: uppercase;
+	text-transform: uppercase;
+	text-align: center;
+	padding: 1rem;
+	margin-bottom: 1rem;
+	background-color: white;
+	font-size: 40px;
+	width: 100%;
+}
+
+#content {
+	display: flex;
+	flex-direction: row;
+}
+#user-content {
+	display: flex;
+	flex-direction: column;
+	background-color: rgba(255, 255, 255, 0.5);
+	margin-top: 5%;
+	padding: 5%;
+	border-radius: 100px;
+	font-size: 30px;
+}
+
+#left {
+	display: flex;
+	flex-direction: column;
+	padding: 5%;
+	font-size: 40px;
+	width: 50%;
+}
+
+#phone_number {
+	margin-top: 5%;
+	font-size: 40px;
+	padding: 3%;
+}
+
+input[type="text"]:focus {
+	border: 3px solid black;
+}
+
+#sign-up-button {
+	color: #1ed760;
+	background-color: white;
+	padding: 3%;
+	font-size: 30px;
+	border: white;
+	border-radius: 100px;
+	margin-top: 5%;
+	font-weight: bold;
+}
+
+#sign-up-button:hover {
+	background-color: black; /* Green */
+	color: white;
+}
+
+#error-message {
+	color: red;
+	font-weight: bold;
+	margin-top: 5%;
+}
+
+#right {
+	padding: 5%;
+	width: 50%;
+	display: flex;
+	justify-content: center;
+}
+
+#image-wrapper {
+	width: 75%;
+	display: flex;
+	justify-content: center;
+}
+
+#example {
+	max-width: 100%;
 }
