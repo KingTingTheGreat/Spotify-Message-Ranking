@@ -1,10 +1,10 @@
 # Spotify-Message-Ranking
 
-Spotify-Message-Ranking sends users monthly text messages regarding their top songs on Spotify from the last month. 
+Spotify-Message-Ranking sends users monthly text messages regarding their top songs on Spotify from the last month.
 
 This is an example of the messages each user receives:
 
-<img src="example.png" alt="example message received by users" width="300">
+<img src="example.webp" alt="example message received by users" width="300">
 
 ## How Sign-up
 
