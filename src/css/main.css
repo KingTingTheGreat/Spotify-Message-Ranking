@@ -21,7 +21,7 @@ header {
 	padding: 1rem;
 	margin-bottom: 1rem;
 	background-color: white;
-	font-size: 40px;
+	font-size: 3rem;
 	width: 100%;
 }
 
@@ -33,18 +33,25 @@ header {
 	display: flex;
 	flex-direction: column;
 	background-color: rgba(255, 255, 255, 0.5);
-	margin-top: 5%;
-	padding: 5%;
-	border-radius: 100px;
-	font-size: 30px;
+	margin-top: 2rem;
+	padding: 2rem;
+	border-radius: 10rem;
+}
+
+#user-content h2 {
+	font-size: 3rem;
+	/* width: fit-content; */
+	display: flex;
+	justify-content: center;
 }
 
 #left {
 	display: flex;
 	flex-direction: column;
-	padding: 5%;
-	font-size: 40px;
+	padding: 3rem;
 	width: 50%;
+	font-size: calc(1em + 1vw);
+	/* align-items: center; */
 }
 
 #phone_number {
@@ -90,6 +97,9 @@ input[type="text"]:focus {
 	width: 75%;
 	display: flex;
 	justify-content: center;
+	align-items: center;
+	border-radius: 2rem;
+	overflow: hidden;
 }
 
 #example {
