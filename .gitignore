@@ -10,3 +10,4 @@ send_sms.py
 loop_test.py
 .private
 stats_test.py
+env/
